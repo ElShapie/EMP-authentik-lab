@@ -1,0 +1,66 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{fontspec}
+% Instalar Times New Roman y compilar con XeLaTeX para usar la fuente solicitada.
+\setmainfont{Times New Roman}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{longtable,array,booktabs,fvextra,enumitem,fancyhdr,needspace}
+\usepackage[hidelinks,unicode]{hyperref}
+\usepackage{xurl}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\setlength{\emergencystretch}{3em}
+\setlist{nosep,leftmargin=1.5em,topsep=5pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small SECURITY TEAM}\fancyhead[R]{\small Manual de laboratorio}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{15pt}
+\DefineVerbatimEnvironment{Comandos}{Verbatim}{breaklines,breakanywhere,fontsize=\small,fontfamily=\rmdefault,frame=single,framesep=5pt}
+\begin{document}
+{\LARGE\bfseries IAM: OneLogin y permisos reales de la aplicación\par}\vspace{6pt}
+2 de octubre de 2026\par\hrule\vspace{10pt}
+\Needspace{5\baselineskip}\section*{Implementación disponible}
+La aplicación exige OneLogin OIDC. La API SCIM Core 1 permite alta, consulta, actualización, suspensión y eliminación. El almacén comprueba cuenta activa y rol en cada operación, incluso si la sesión estaba abierta antes de un cambio. \textnormal{comprobar\_\allowbreak{}scim.py} verifica acceso anónimo rechazado y consulta con token correcto; no crea usuarios ni prueba el MFA por sí mismo.\par
+\Needspace{5\baselineskip}\section*{1. Coordinar con TI}
+Recibir APP\_BASE\_URL y SCIM\_TOKEN de la configuración local, mediante el canal privado. El secreto no se escribe en el plan, README, Issues ni evidencia. Crear el conector OIDC y el conector SCIM siguiendo la guía completa (04\_IAM\_OneLogin.pdf).\par
+OIDC devuelve a \textnormal{APP\_\allowbreak{}BASE\_\allowbreak{}URL/\allowbreak{}auth/\allowbreak{}callback}. SCIM recibe en \textnormal{APP\_\allowbreak{}BASE\_\allowbreak{}URL/\allowbreak{}scim/\allowbreak{}v1}. Mantener la configuración del token endpoint compatible con el conector. Los parámetros Client ID, Client Secret y metadata URL los copia TI a \textnormal{.env}; nunca se configuran dentro del JavaScript del navegador.\par
+\Needspace{5\baselineskip}\section*{2. Crear perfiles}
+{\small\renewcommand{\arraystretch}{1.2}
+\begin{longtable}{p{5.027cm}p{5.027cm}p{5.027cm}}
+\toprule
+\textbf{Perfil ficticio} & \textbf{title/lab\_role} & \textbf{Permisos de aplicación} \\ \midrule\endfirsthead
+\textbf{Perfil ficticio} & \textbf{title/lab\_role} & \textbf{Permisos de aplicación} \\ \midrule\endhead
+LAB-INGENIERO & mantenimiento & Consulta y contador de mantenimiento \\
+LAB-ADMIN & admin & Consulta, mantenimiento, estado, registros y hub \\
+LAB-AUDITOR & auditor & Consulta, registros y hub \\
+LAB-SOC & soc & Consulta, registros y hub \\
+Consulta & consulta & Consulta \\
+Sin acceso & sin\_acceso & Ninguna acción protegida \\
+\bottomrule\end{longtable}}
+\textnormal{externalId} debe contener el identificador de laboratorio que se usará en RFID y SOC. \textnormal{userName} debe coincidir con el correo que entrega OneLogin en la identidad firmada. Una cuenta SOC no recibe administración por observar los registros. Frigate tiene sus propias cuentas de consulta; el enlace del hub no inicia sesión automáticamente en el NVR.\par
+\Needspace{5\baselineskip}\section*{3. Comprobar SCIM}
+En el servidor TI, cargar \textnormal{.env} en una terminal privada; ejecutar el verificador desde el clon:\par
+\Needspace{7\baselineskip}
+\begin{Comandos}
+set -a
+source ~/lab-runtime/app/.env
+set +a
+python3 Areas/IAM/comprobar_scim.py --url https://REEMPLAZAR.trycloudflare.com
+\end{Comandos}
+Resultado esperado: anonimo 401, autorizado 200 y correcto true. El token se obtiene del entorno y no aparece en la línea de comando. No usar HTTP ni URLs con credenciales.\par
+\Needspace{5\baselineskip}\section*{4. Alta automática}
+\begin{enumerate}
+\item RRHH entrega solicitud aprobada.
+\item Crear el usuario OneLogin y configurar sus atributos.
+\item Asignar el conector SCIM mediante la regla o mapping autorizado.
+\item Confirmar el evento de aprovisionamiento y que la cuenta aparece en la aplicación, sin ejecutar un alta local manual.
+\item Asignar el conector OIDC.
+\item Registrar MFA y abrir una sesión nueva con desafío real.
+\item Consultar y ejecutar mantenimiento con el ingeniero; guardar antes y después del contador.
+\end{enumerate}
+\Needspace{5\baselineskip}\section*{5. Cambio y baja}
+Cambiar title a auditor desde OneLogin y confirmar SCIM\_UPDATE. Mantener la sesión anterior abierta: mantenimiento debe responder 403. Suspender el usuario o retirar la aplicación según la política del conector y confirmar active false o SCIM\_DELETE. Repetir con la sesión anterior y después con un inicio nuevo. Registrar tiempo de propagación y resultado efectivo.\par
+Los tests HTTP usan una respuesta de proveedor simulada exclusivamente en pruebas para comprobar vínculo de identidad y permisos. El sistema que se despliega utiliza Authlib y OneLogin reales; no contiene un modo de login local.\par
+\Needspace{5\baselineskip}\section*{Entrega}
+Matriz de roles, configuración sin secretos, resultado del verificador, evidencias de aprovisionamiento/MFA/cambio/baja y referencias del evento. Las cuentas de OneLogin no se han creado desde aquí porque requieren el tenant y sus permisos.\par
+\end{document}

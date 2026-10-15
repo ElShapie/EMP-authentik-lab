@@ -1,0 +1,61 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{fontspec}
+% Instalar Times New Roman y compilar con XeLaTeX para usar la fuente solicitada.
+\setmainfont{Times New Roman}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{longtable,array,booktabs,fvextra,enumitem,fancyhdr,needspace}
+\usepackage[hidelinks,unicode]{hyperref}
+\usepackage{xurl}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\setlength{\emergencystretch}{3em}
+\setlist{nosep,leftmargin=1.5em,topsep=5pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small SECURITY TEAM}\fancyhead[R]{\small Manual de laboratorio}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{15pt}
+\DefineVerbatimEnvironment{Comandos}{Verbatim}{breaklines,breakanywhere,fontsize=\small,fontfamily=\rmdefault,frame=single,framesep=5pt}
+\begin{document}
+{\LARGE\bfseries SOC: hub y reconstrucción del recorrido\par}\vspace{6pt}
+2 de octubre de 2026\par\hrule\vspace{10pt}
+\Needspace{5\baselineskip}\section*{Herramientas}
+\textnormal{/\allowbreak{}hub} muestra los últimos 100 eventos de la aplicación y un enlace a Frigate. Los roles soc, auditor y admin pueden consultarlo. \textnormal{exportar\_\allowbreak{}eventos.py} genera JSON local desde SQLite; \textnormal{linea\_\allowbreak{}tiempo.py} relaciona RFID y aplicación por identidad explícita y UTC. OneLogin, Microsoft 365 y video mantienen sus fuentes originales; la correlación de estas fuentes sigue requiriendo revisión del operador.\par
+\Needspace{5\baselineskip}\section*{1. Abrir el puesto SOC}
+\begin{enumerate}
+\item IAM aprovisiona LAB-SOC con title soc y MFA.
+\item TI configura NVR\_BASE\_URL con la URL HTTPS del NVR y recrea el servicio.
+\item SOC inicia sesión en la aplicación y abre \textnormal{/\allowbreak{}hub}.
+\item Abre Frigate con una cuenta de consulta propia y las dos cámaras.
+\item Verifica que una acción del ingeniero aparece en la tabla al actualizar.
+\item Comprueba que el operador SOC no puede ejecutar administración ni mantenimiento.
+\end{enumerate}
+El navegador del SOC necesita acceso a la red local del NVR. El túnel de la aplicación no publica las cámaras. El enlace conserva la protección del NVR y su certificado.\par
+\Needspace{5\baselineskip}\section*{2. Exportar eventos}
+Si la aplicación usa Gunicorn y APP\_DB relativo a su carpeta:\par
+\Needspace{4\baselineskip}
+\begin{Comandos}
+python3 Areas/SOC/exportar_eventos.py --base ~/lab-runtime/app/data/lab.sqlite --salida ~/lab-runtime/soc/eventos_aplicacion.json
+\end{Comandos}
+Si utiliza Docker, TI copia la base con el contenedor detenido brevemente para una copia consistente:\par
+\Needspace{7\baselineskip}
+\begin{Comandos}
+cd ~/lab-runtime/app
+sudo docker compose stop app
+sudo docker compose cp app:/app/data/lab.sqlite ./copia_lab.sqlite
+sudo docker compose start app
+\end{Comandos}
+Después, desde la raíz del clon, exportar indicando \textnormal{--base \textasciitilde{}/\allowbreak{}lab-runtime/\allowbreak{}app/\allowbreak{}copia\_\allowbreak{}lab.sqlite}. Si existe un archivo SQLite de journal/WAL por un método distinto de operación, obtener una copia consistente mediante respaldo SQLite o copiar sus archivos necesarios con el servicio detenido.\par
+\Needspace{5\baselineskip}\section*{3. Obtener RFID}
+Seguridad Física detiene el registrador con Ctrl+C y entrega una copia del CSV. El identificador del ingeniero debe ser LAB-INGENIERO tanto en el programa de la placa como en externalId de la cuenta SCIM. No unir automáticamente un UUID desconocido con una persona por una hora similar.\par
+\Needspace{5\baselineskip}\section*{4. Crear línea de tiempo}
+\Needspace{4\baselineskip}
+\begin{Comandos}
+python3 Areas/SOC/linea_tiempo.py --rfid ~/lab-runtime/rfid/eventos_rfid.csv --aplicacion ~/lab-runtime/soc/eventos_aplicacion.json --empleado LAB-INGENIERO --salida ~/lab-runtime/soc/recorrido.html
+\end{Comandos}
+Abrir el HTML local. Debe mostrar entrada, login, mantenimiento, cierre y salida cuando esos eventos realmente se hayan registrado. Los mensajes RFID tienen la hora de recepción en laptop. Las fechas requieren zona horaria y se convierten a UTC; un evento sin zona se rechaza. La página escapa texto para que no se ejecute HTML de un registro.\par
+\Needspace{5\baselineskip}\section*{5. Revisar video y otras plataformas}
+Buscar el periodo en Frigate y confirmar cruce físico, no únicamente una tarjeta leída. Relacionar MFA/provisioning en OneLogin y cuentas/licencias en Microsoft 365 por identidad y periodo. Guardar incidentes usando Plantillas/incidentes.csv en una carpeta externa. Para rechazo digital, guardar el 403 y que el contador/estado no cambió. Para fallo de cámara, registrar intervalo sin video, recuperación y grabación nueva.\par
+\Needspace{5\baselineskip}\section*{Entrega}
+Vista del hub, línea de tiempo, video exportado del recorrido, registro de incidentes y relación de fuentes. Guardar todo fuera de GitHub, incluso siendo un repositorio privado. Completar las verificaciones de la guía SOC (05\_SOC.pdf).\par
+\end{document}

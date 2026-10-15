@@ -1,0 +1,62 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{fontspec}
+% Instalar Times New Roman y compilar con XeLaTeX para usar la fuente solicitada.
+\setmainfont{Times New Roman}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{longtable,array,booktabs,fvextra,enumitem,fancyhdr,needspace}
+\usepackage[hidelinks,unicode]{hyperref}
+\usepackage{xurl}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\setlength{\emergencystretch}{3em}
+\setlist{nosep,leftmargin=1.5em,topsep=5pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small SECURITY TEAM}\fancyhead[R]{\small Manual de laboratorio}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{15pt}
+\DefineVerbatimEnvironment{Comandos}{Verbatim}{breaklines,breakanywhere,fontsize=\small,fontfamily=\rmdefault,frame=single,framesep=5pt}
+\begin{document}
+{\LARGE\bfseries Auditoría: comprobar implementación y preparar entrega\par}\vspace{6pt}
+2 de octubre de 2026\par\hrule\vspace{10pt}
+\Needspace{5\baselineskip}\section*{Herramientas}
+\textnormal{pruebas\_\allowbreak{}locales.py} ejecuta tres suites y puede guardar un resumen local. \textnormal{evidencias.py} genera un manifiesto SHA-256 de archivos existentes. \textnormal{Entrega/\allowbreak{}} contiene un informe inglés en LaTeX IEEE y una presentación base. Las herramientas no declaran aprobadas pruebas de hardware o nube que todavía no se ejecutaron.\par
+\Needspace{5\baselineskip}\section*{1. Preparar Python}
+Desde la raíz, en Ubuntu:\par
+\Needspace{8\baselineskip}
+\begin{Comandos}
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r Implementacion/app/requirements.txt -r scripts/requirements-check.txt
+python Areas/Auditoria/pruebas_locales.py --salida ~/lab-runtime/auditoria/pruebas_locales.json
+python scripts/check_public_content.py
+\end{Comandos}
+Las pruebas locales comprueban almacenamiento, permiso, cambio/baja con sesión anterior, CSRF, respuestas SCIM, rechazo de JSON mal formado, hub SOC, aprobaciones RRHH, orden de eventos y cambios de hashes. Las respuestas OIDC se sustituyen exclusivamente en los tests de vínculo de identidad; firma/token/MFA se comprueban contra OneLogin en el ensayo real.\par
+\Needspace{5\baselineskip}\section*{2. Pruebas de integración}
+\begin{enumerate}
+\item Verificar alta enviada desde OneLogin y cuenta creada sin alta manual local.
+\item Verificar el desafío MFA con una sesión nueva.
+\item Con ingeniero, leer estado, ejecutar mantenimiento y comprobar incremento persistente.
+\item Con auditor y SOC, intentar modificar estado/mantenimiento y comprobar 403 sin cambio.
+\item Cambiar rol y repetir desde la sesión anterior.
+\item Suspender/eliminar por SCIM y repetir sesión anterior e inicio nuevo.
+\item Comprobar cuatro tarjetas permitidas y una desconocida rechazada.
+\item Relacionar entrada/salida con el video, CSV y registros de aplicación.
+\item Comprobar video sin movimiento, móvil, recuperación y duración real de continuidad.
+\item Comprobar alta, cambio, contraseña, licencia, rol, MFA, auditoría y baja de Microsoft 365 según recursos disponibles.
+\end{enumerate}
+Para cada caso registrar condición inicial, pasos, resultado esperado, resultado observado, hora, responsable y referencia de evidencia. Un recurso sin licencia es una limitación, no una prueba aprobada. Copiar Plantillas/pruebas.csv a una carpeta privada y completar allí.\par
+\Needspace{5\baselineskip}\section*{3. Manifestar archivos reales}
+\Needspace{4\baselineskip}
+\begin{Comandos}
+python Areas/Auditoria/evidencias.py --carpeta ~/lab-runtime/evidencias --salida ~/lab-runtime/auditoria/manifiesto.json
+\end{Comandos}
+El comando calcula tamaño y SHA-256 de cada archivo y omite la propia salida si está dentro de la carpeta. Un hash permite comprobar cambios posteriores; no prueba que un video represente una acción aprobada. Mantener evidencia, manifestación y claves fuera del repositorio.\par
+\Needspace{5\baselineskip}\section*{4. Informe inglés}
+Leer \textnormal{Entrega/\allowbreak{}informe\_\allowbreak{}IEEE.tex} y su PDF base. Reemplazar las secciones de resultados pendientes por hechos comprobados: qué cuenta, acción y periodo se usaron, sin divulgar identificadores personales. Añadir limitaciones de hardware, licencias y grabación. Para la copia final requerida por la evaluación, completar autores en privado; el repositorio conserva el ejemplo sin personas ni institución.\par
+Compilar con XeLaTeX, Times New Roman y clase IEEEtran. Revisar dos columnas, tablas, citas y fuentes. Las referencias del informe se enlazan a documentación oficial. El informe base describe diseño e implementación y distingue las 36 pruebas locales de las pruebas de integración pendientes.\par
+\Needspace{5\baselineskip}\section*{5. Presentación y cierre}
+Actualizar la presentación con evidencias sanitizadas, resultados y limitaciones del ensayo. Mantener los diagramas aparte para insertar solo los necesarios. Ensayar con Dirección el recorrido y las transiciones de cuentas. Conservar copias locales y cerrar cuentas temporales al finalizar según autorización del tenant.\par
+\Needspace{5\baselineskip}\section*{Entrega}
+Lista completa de pruebas, resultados reales, manifiesto, informe en inglés, presentación y relación de aportaciones del grupo guardada privadamente. Guía de Auditoría (07\_Auditoria.pdf).\par
+\end{document}

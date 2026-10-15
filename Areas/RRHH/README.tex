@@ -1,0 +1,54 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{fontspec}
+% Instalar Times New Roman y compilar con XeLaTeX para usar la fuente solicitada.
+\setmainfont{Times New Roman}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{longtable,array,booktabs,fvextra,enumitem,fancyhdr,needspace}
+\usepackage[hidelinks,unicode]{hyperref}
+\usepackage{xurl}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\setlength{\emergencystretch}{3em}
+\setlist{nosep,leftmargin=1.5em,topsep=5pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small SECURITY TEAM}\fancyhead[R]{\small Manual de laboratorio}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{15pt}
+\DefineVerbatimEnvironment{Comandos}{Verbatim}{breaklines,breakanywhere,fontsize=\small,fontfamily=\rmdefault,frame=single,framesep=5pt}
+\begin{document}
+{\LARGE\bfseries RRHH: solicitudes, aprobaciones y cierre\par}\vspace{6pt}
+2 de octubre de 2026\par\hrule\vspace{10pt}
+\Needspace{5\baselineskip}\section*{Qué implementa el programa}
+\textnormal{solicitudes.py} crea un registro local en SQLite. Cada solicitud tiene tipo, recurso, identidad, rol, estado e historial. Impide que el solicitante se apruebe a sí mismo y exige un operador del área dueña. Para cerrar una solicitud se requiere aprobación y referencia de evidencia.\par
+Es una herramienta administrativa local. Los argumentos actor y área no autentican a quien la ejecuta. RRHH opera la laptop designada; verifica la aprobación mediante el procedimiento del grupo. La identidad y los permisos de la aplicación se comprueban con OneLogin. El programa no crea cuentas en los tenants ni cambia tarjetas.\par
+\Needspace{5\baselineskip}\section*{1. Crear una solicitud por recurso}
+Desde la raíz del repositorio:\par
+\Needspace{4\baselineskip}
+\begin{Comandos}
+python3 Areas/RRHH/solicitudes.py crear --actor PUESTO-004 --empleado LAB-INGENIERO --tipo alta --recurso aplicacion --rol mantenimiento
+\end{Comandos}
+Anotar el ID \textnormal{SOL-...} que devuelve. La base predeterminada está en \textnormal{\textasciitilde{}/\allowbreak{}lab-runtime/\allowbreak{}rrhh/\allowbreak{}control.sqlite}. El ID es generado en cada ejecución: copiar el real en los siguientes pasos.\par
+Tipos: alta, cambio y baja. Recursos y dueños: aplicacion/TI, onelogin/IAM, microsoft365/TI y rfid/Seguridad\_Fisica. Una solicitud para varios sistemas se divide en solicitudes por recurso para comprobar cada ejecución.\par
+\Needspace{5\baselineskip}\section*{2. Aprobar con el dueño}
+\Needspace{4\baselineskip}
+\begin{Comandos}
+python3 Areas/RRHH/solicitudes.py aprobar --id REEMPLAZAR_SOL --actor PUESTO-008 --area TI
+\end{Comandos}
+El solicitante del ejemplo es PUESTO-004; PUESTO-008 representa al revisor TI. Si actor coincide, área es incorrecta o ya fue aprobada, el programa devuelve error y conserva el estado. Guardar la aprobación real en el expediente privado.\par
+\Needspace{5\baselineskip}\section*{3. Solicitar implementación}
+Entregar el ID y los datos al área responsable. IAM crea el usuario OneLogin, configura el rol y permite que SCIM cree la cuenta local. TI administra Microsoft 365 según su guía. Seguridad Física agrega o retira el UID en el código de la placa y lo vuelve a cargar. RRHH verifica cada resultado; una cuenta Microsoft 365 no implica que OneLogin o RFID estén configurados.\par
+\Needspace{5\baselineskip}\section*{4. Cerrar con evidencia}
+\Needspace{5\baselineskip}
+\begin{Comandos}
+python3 Areas/RRHH/solicitudes.py cerrar --id REEMPLAZAR_SOL --actor PUESTO-011 --evidencia EVIDENCIA-ALTA-01
+python3 Areas/RRHH/solicitudes.py listar
+\end{Comandos}
+La evidencia es una referencia privada, no la contraseña o el contenido del archivo. Estado implementada significa que el operador registró el cierre; Auditoría comprueba que la acción funciona.\par
+\Needspace{5\baselineskip}\section*{5. Cambio de puesto}
+Crear tipo cambio para la misma identidad y nuevo rol auditor. Obtener aprobación, pedir a IAM cambiar el atributo y comprobar sincronización. Mantener una sesión anterior abierta: mantenimiento debe dejar de funcionar. TI revisa por separado Microsoft 365 y Seguridad Física revisa si corresponde retirar la tarjeta.\par
+\Needspace{5\baselineskip}\section*{6. Baja}
+Crear tipo baja por recurso. IAM suspende o retira la cuenta y confirma SCIM. TI bloquea inicio y revoca sesiones Microsoft 365. Seguridad Física retira el UID. Probar una sesión anterior y la tarjeta; documentar tiempos efectivos. Cerrar cada solicitud después de la prueba correspondiente.\par
+\Needspace{5\baselineskip}\section*{Archivos y entrega}
+Mantener nombres, correos, aprobaciones, base de datos e historial fuera del clon. Utilizar las plantillas vacías de \textnormal{Plantillas/\allowbreak{}} como punto de partida si necesitan Excel. Entregar a Auditoría las solicitudes y referencias en una carpeta privada. Más pasos: guía RRHH (02\_RRHH.pdf).\par
+\end{document}

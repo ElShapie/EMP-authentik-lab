@@ -1,0 +1,441 @@
+{
+  "puestos": [
+    {
+      "id": "PUESTO-001",
+      "area": "Direccion",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-002",
+      "area": "Direccion",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-003",
+      "area": "Direccion",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-004",
+      "area": "RRHH",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-005",
+      "area": "RRHH",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-006",
+      "area": "RRHH",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-007",
+      "area": "TI",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-008",
+      "area": "TI",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-009",
+      "area": "TI",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-010",
+      "area": "TI",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-011",
+      "area": "TI",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-012",
+      "area": "TI",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-013",
+      "area": "TI",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-014",
+      "area": "IAM",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-015",
+      "area": "IAM",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-016",
+      "area": "IAM",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-017",
+      "area": "IAM",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-018",
+      "area": "IAM",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-019",
+      "area": "SOC",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-020",
+      "area": "SOC",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-021",
+      "area": "SOC",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-022",
+      "area": "SOC",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-023",
+      "area": "SOC",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-024",
+      "area": "Seguridad_Fisica",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-025",
+      "area": "Seguridad_Fisica",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-026",
+      "area": "Seguridad_Fisica",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-027",
+      "area": "Seguridad_Fisica",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-028",
+      "area": "Seguridad_Fisica",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-029",
+      "area": "Auditoria",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-030",
+      "area": "Auditoria",
+      "responsable": ""
+    },
+    {
+      "id": "PUESTO-031",
+      "area": "Auditoria",
+      "responsable": ""
+    }
+  ],
+  "tareas": [
+    {
+      "id": "Direccion-01",
+      "area": "Direccion",
+      "actividad": "Asignar puestos y equipos",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "Direccion-02",
+      "area": "Direccion",
+      "actividad": "Confirmar recursos y adaptaciones",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "Direccion-03",
+      "area": "Direccion",
+      "actividad": "Aprobar políticas",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "Direccion-04",
+      "area": "Direccion",
+      "actividad": "Coordinar hitos",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "Direccion-05",
+      "area": "Direccion",
+      "actividad": "Ensayar entrega",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "RRHH-01",
+      "area": "RRHH",
+      "actividad": "Registrar identidades privadas",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "RRHH-02",
+      "area": "RRHH",
+      "actividad": "Crear solicitudes",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "RRHH-03",
+      "area": "RRHH",
+      "actividad": "Obtener aprobaciones",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "RRHH-04",
+      "area": "RRHH",
+      "actividad": "Verificar cambios",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "RRHH-05",
+      "area": "RRHH",
+      "actividad": "Cerrar bajas",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "TI-01",
+      "area": "TI",
+      "actividad": "Validar red",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "TI-02",
+      "area": "TI",
+      "actividad": "Preparar aplicación",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "TI-03",
+      "area": "TI",
+      "actividad": "Desplegar servicio",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "TI-04",
+      "area": "TI",
+      "actividad": "Administrar Microsoft 365",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "TI-05",
+      "area": "TI",
+      "actividad": "Entregar respaldos",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "IAM-01",
+      "area": "IAM",
+      "actividad": "Definir roles",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "IAM-02",
+      "area": "IAM",
+      "actividad": "Conectar OIDC",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "IAM-03",
+      "area": "IAM",
+      "actividad": "Aplicar MFA",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "IAM-04",
+      "area": "IAM",
+      "actividad": "Conectar SCIM",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "IAM-05",
+      "area": "IAM",
+      "actividad": "Probar cambio y baja",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "SOC-01",
+      "area": "SOC",
+      "actividad": "Abrir hub",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "SOC-02",
+      "area": "SOC",
+      "actividad": "Consultar cámaras",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "SOC-03",
+      "area": "SOC",
+      "actividad": "Exportar eventos",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "SOC-04",
+      "area": "SOC",
+      "actividad": "Relacionar recorrido",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "SOC-05",
+      "area": "SOC",
+      "actividad": "Responder a incidentes",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "SF-01",
+      "area": "Seguridad_Fisica",
+      "actividad": "Confirmar lector y placa",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "SF-02",
+      "area": "Seguridad_Fisica",
+      "actividad": "Programar RFID",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "SF-03",
+      "area": "Seguridad_Fisica",
+      "actividad": "Registrar entrada y salida",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "SF-04",
+      "area": "Seguridad_Fisica",
+      "actividad": "Configurar cámaras y Frigate",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "SF-05",
+      "area": "Seguridad_Fisica",
+      "actividad": "Probar continuidad",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "Auditoria-01",
+      "area": "Auditoria",
+      "actividad": "Correr pruebas locales",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "Auditoria-02",
+      "area": "Auditoria",
+      "actividad": "Comprobar recorrido",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "Auditoria-03",
+      "area": "Auditoria",
+      "actividad": "Comprobar nube y hardware",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "Auditoria-04",
+      "area": "Auditoria",
+      "actividad": "Manifestar evidencias",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    },
+    {
+      "id": "Auditoria-05",
+      "area": "Auditoria",
+      "actividad": "Completar informe y presentación",
+      "estado": "pendiente",
+      "responsable": "",
+      "evidencia": ""
+    }
+  ]
+}

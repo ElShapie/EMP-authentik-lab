@@ -1,0 +1,64 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{fontspec}
+% Instalar Times New Roman y compilar con XeLaTeX para usar la fuente solicitada.
+\setmainfont{Times New Roman}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{longtable,array,booktabs,fvextra,enumitem,fancyhdr,needspace}
+\usepackage[hidelinks,unicode]{hyperref}
+\usepackage{xurl}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\setlength{\emergencystretch}{3em}
+\setlist{nosep,leftmargin=1.5em,topsep=5pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small SECURITY TEAM}\fancyhead[R]{\small Manual de laboratorio}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{15pt}
+\DefineVerbatimEnvironment{Comandos}{Verbatim}{breaklines,breakanywhere,fontsize=\small,fontfamily=\rmdefault,frame=single,framesep=5pt}
+\begin{document}
+{\LARGE\bfseries Dirección: ejecutar y coordinar la práctica\par}\vspace{6pt}
+2 de octubre de 2026\par\hrule\vspace{10pt}
+\Needspace{5\baselineskip}\section*{Herramientas entregadas}
+\textnormal{control.py} mantiene un plan local con 31 puestos, actividades por departamento y estados de avance. \textnormal{plan.example.json} contiene puestos genéricos y tareas, sin asignaciones personales. La documentación completa del área está en \textnormal{docs/\allowbreak{}Guias/\allowbreak{}01\_\allowbreak{}Direccion.pdf}.\par
+\Needspace{5\baselineskip}\section*{1. Descargar y preparar}
+La persona propietaria debe agregar las cuentas GitHub autorizadas desde Settings \(\rightarrow\) Collaborators. Cada colaborador acepta la invitación. Leer un repositorio privado requiere acceso; compartir su dirección por sí solo no lo concede.\par
+\Needspace{7\baselineskip}
+\begin{Comandos}
+git clone https://github.com/ElShapie/identity-access-practice.git
+cd identity-access-practice
+python3 Areas/Direccion/control.py iniciar
+python3 Areas/Direccion/control.py ver
+\end{Comandos}
+El plan se guarda en \textnormal{\textasciitilde{}/\allowbreak{}lab-runtime/\allowbreak{}direccion/\allowbreak{}plan.json}. Una segunda ejecución de iniciar se detiene para conservar lo que ya registraron. Asignar personas en el control privado y utilizar los códigos de puesto para compartir instrucciones.\par
+\Needspace{5\baselineskip}\section*{2. Definir responsables y recursos}
+\begin{enumerate}
+\item Revisar los 31 puestos: Dirección 3, RRHH 3, TI 7, IAM 5, SOC 5, Seguridad Física 5 y Auditoría 3.
+\item Designar dos laptops por área. Mantener servidor TI y grabador encendidos durante el ensayo.
+\item Confirmar router, uno o dos switches, cables, carga de teléfonos y espacio de almacenamiento.
+\item Registrar el modelo exacto de lector y placa. No autorizar cableado mientras estén sin identificar.
+\item Confirmar tenant y licencia de OneLogin con OIDC y aprovisionamiento; confirmar Microsoft 365 y permisos administrativos.
+\item Acordar por escrito cómo se cubre el requisito de transceptores de video con las cámaras IP y el NVR virtual autorizado.
+\end{enumerate}
+\Needspace{5\baselineskip}\section*{3. Registrar avances}
+\Needspace{5\baselineskip}
+\begin{Comandos}
+python3 Areas/Direccion/control.py actualizar --tarea TI-01 --estado en_proceso --responsable PUESTO-008
+python3 Areas/Direccion/control.py actualizar --tarea TI-01 --estado validado --responsable PUESTO-008 --evidencia EVIDENCIA-RED-01
+\end{Comandos}
+La primera orden indica trabajo iniciado. La segunda necesita una referencia local de evidencia. El programa no determina por sí mismo que el resultado sea verdadero: Dirección revisa la prueba con Auditoría. Estados disponibles: pendiente, en\_proceso, implementado, validado y bloqueado.\par
+\Needspace{5\baselineskip}\section*{4. Orden del montaje}
+\begin{enumerate}
+\item RRHH registra solicitudes; TI prepara la red y el servidor.
+\item Seguridad Física prepara RFID, teléfonos y Frigate.
+\item IAM configura los dos conectores OneLogin y demuestra altas/bajas.
+\item TI completa los ejercicios Microsoft 365.
+\item SOC consulta \textnormal{/\allowbreak{}hub} con su rol y genera la línea de tiempo.
+\item Auditoría corre pruebas locales y luego el recorrido real.
+\item Cada área entrega sus archivos de evidencia a una carpeta privada y registra su referencia en el plan.
+\end{enumerate}
+\Needspace{5\baselineskip}\section*{5. Recorrido de exposición}
+RRHH muestra la solicitud aprobada del ingeniero. Un visitante presenta una tarjeta y recibe rechazo. El ingeniero presenta su tarjeta permitida; el operador marca entrada. El ingeniero inicia con OneLogin y MFA, consulta el estado y ejecuta mantenimiento. Un auditor inicia y prueba la misma acción: debe recibir 403 sin modificar el recurso. El ingeniero cierra sesión y el operador registra salida. SOC relaciona los eventos con el video. Al final, IAM cambia el rol y luego suspende la cuenta; repetir la acción desde una sesión anterior demuestra retiro de permisos.\par
+\Needspace{5\baselineskip}\section*{Resultado y entrega}
+Plan actualizado, responsables definidos en privado, recursos confirmados y recorrido ensayado. No presentar una grabación configurada como si ya existieran 24 horas de video. \textnormal{Entrega/\allowbreak{}} contiene bases de informe y presentación que deben completarse con resultados reales. Consultar referencias (REFERENCIAS\_Y\_VIDEOS.pdf).\par
+\end{document}

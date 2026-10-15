@@ -1,6 +1,6 @@
 # Identity Access Practice — variante authentik
 
-Esta rama prepara una alternativa técnica con authentik Open Source. **No cambia `main`**, que conserva el requisito original de OneLogin. La guía original del proyecto declara OneLogin obligatorio; usa esta variante para la entrega únicamente después de obtener autorización del profesor. No conectes esta rama al volumen de datos del despliegue OneLogin.
+Este repositorio privado contiene una variante técnica con authentik Open Source. El repositorio fuente y su rama `main` conservan OneLogin; esta copia no los modifica. La guía original de requisitos declara OneLogin obligatorio: usa esta variante en la entrega únicamente con autorización del profesor. No conectes esta copia al volumen de datos del despliegue OneLogin.
 
 Repositorio privado de implementación de un laboratorio con 31 puestos. El contenido usa identificadores genéricos; los nombres, cuentas, tarjetas, grabaciones y evidencias se guardan fuera del repositorio.
 
@@ -23,8 +23,8 @@ Cada área tiene una guía Markdown y su versión PDF/LaTeX, con comandos, orden
 Se necesita acceso como colaborador para clonar este repositorio privado.
 
 ```bash
-git clone https://github.com/ElShapie/identity-access-practice.git
-cd identity-access-practice
+git clone --branch main https://github.com/ElShapie/EMP-authentik-lab.git
+cd EMP-authentik-lab
 python3 Areas/TI/preparar_runtime.py
 ```
 
